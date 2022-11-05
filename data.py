@@ -2,6 +2,7 @@ import requests
 import os
 from dotenv import load_dotenv
 from datetime import datetime
+import json
 
 load_dotenv()
 
@@ -12,7 +13,15 @@ client_secret = os.getenv('CLIENT_SECRET')
 token = os.getenv('API_TOKEN')
 
 
+def get_coordinates():
+    f = open('dict.json') #Placeholder. Insert actual coordinates name.
+    coordinates = json.load(f)
+    f.close()
+    return coordinates
+
+
 def get_availability() -> dict:
+    coordinates = get_coordinates()
     params = {
         "token": token,
         "client_secret": client_secret,
@@ -36,6 +45,5 @@ def get_availability() -> dict:
                 length += 1
                 if sensor.get('occupied', None) == True:
                     counter += 1
-        availability[loc['id']] = counter/length
+        availability[loc['id']] = { coordinates[loc['id']]['x'], coordinates[loc['id']]['y'], counter/length}
     return availability
-
