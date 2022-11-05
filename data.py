@@ -14,27 +14,19 @@ token = os.getenv('API_TOKEN')
 
 
 def get_coordinates():
-    f = open('data/coords.json') #Placeholder. Insert actual coordinates name.
-    coordinates = json.load(f)
-    f.close()
+    with open('data/coords.json') as file:
+        coordinates = json.load(file)
     return coordinates
 
 
-def get_availability() -> dict:
+def create_availability_dict(loc_list: list) -> dict:
     coordinates = get_coordinates()
-    print(coordinates)
-    params = {
-        "token": token,
-        "client_secret": client_secret,
-    }
-    r = requests.get("https://uclapi.com/workspaces/surveys", params=params)
-    loc_list = r.json()['surveys']
     availability = {}
     for loc in loc_list:
         name = loc['name']
         loc_id = loc['id']
         
-        if name == 'Bidborough House - Social Distance': # Erroneously placed by UCL API.
+        if name == 'Bidborough House - Social Distance': # Remove erroneously placed by UCL API.
             continue
 
         params = {
@@ -54,8 +46,32 @@ def get_availability() -> dict:
                 if sensor.get('occupied', None) == True:
                     counter += 1
 
-        availability[loc_id] = { 
+        availability[loc_id] = {
             'x': coordinates[f"{loc_id}"]['x'], 
             'y': coordinates[f"{loc_id}"]['y'], 
-            'availability':counter/length}
+            'availability':counter/length
+            }
     return availability
+
+
+def get_availability() -> dict:
+    params = {
+        "token": token,
+        "client_secret": client_secret,
+    }
+    r = requests.get("https://uclapi.com/workspaces/surveys", params=params)
+    loc_list = r.json()['surveys']
+    return create_availability_dict(loc_list)
+
+
+def map_availability(availability: dict) -> list:
+    locations = list(availability.keys())
+    availability_list = []
+    for location in locations:
+        x = availability[location]['x']
+        y =availability[location]['y']
+        percentage = availability[location]['availability']
+        availability_list.append([x, y, percentage])
+    return availability_list
+
+map_availability(get_availability())

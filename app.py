@@ -1,8 +1,7 @@
 from data import get_availability
 from dotenv import load_dotenv
 import os
-from flask import Flask, redirect, request
-import json
+from flask import Flask, redirect 
 
 
 load_dotenv()
@@ -22,5 +21,7 @@ def main():
 def uclapi_login():
     availability = get_availability()
     return availability
+
+
 if __name__ == '__main__':
     app.run()
