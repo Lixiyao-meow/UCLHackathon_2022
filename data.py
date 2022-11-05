@@ -1,3 +1,5 @@
+import random
+
 import requests
 import os
 from dotenv import load_dotenv
@@ -10,7 +12,7 @@ now = datetime.now()
 
 client_id = os.getenv('CLIENT_ID')
 client_secret = os.getenv('CLIENT_SECRET')
-token = os.getenv('API_TOKEN')
+token =os.getenv('API_TOKEN')
 
 
 def get_coordinates():
@@ -25,8 +27,8 @@ def create_availability_dict(loc_list: list) -> dict:
     for loc in loc_list:
         name = loc['name']
         loc_id = loc['id']
-        
-        if name == 'Bidborough House - Social Distance': # Remove erroneously placed by UCL API.
+
+        if name == 'Bidborough House - Social Distance':  # Remove erroneously placed by UCL API.
             continue
 
         params = {
@@ -47,10 +49,10 @@ def create_availability_dict(loc_list: list) -> dict:
                     counter += 1
 
         availability[loc_id] = {
-            'x': coordinates[f"{loc_id}"]['x'], 
-            'y': coordinates[f"{loc_id}"]['y'], 
-            'availability':counter/length
-            }
+            'x': coordinates[f"{loc_id}"]['x'],
+            'y': coordinates[f"{loc_id}"]['y'],
+            'availability': counter / length
+        }
     return availability
 
 
@@ -61,7 +63,9 @@ def get_availability() -> dict:
     }
     r = requests.get("https://uclapi.com/workspaces/surveys", params=params)
     loc_list = r.json()['surveys']
-    return create_availability_dict(loc_list)
+    output = map_availability(create_availability_dict(loc_list))
+    save_to_json(output, "./static/traffic.json")
+    return output
 
 
 def map_availability(availability: dict) -> list:
@@ -69,11 +73,17 @@ def map_availability(availability: dict) -> list:
     availability_list = []
     for location in locations:
         x = availability[location]['x']
-        y =availability[location]['y']
+        y = availability[location]['y']
         percentage = availability[location]['availability']
-        availability_list.append([x, y, percentage*1000])
+        # test case
+        # percentage = random.uniform(0, 1)
+        availability_list.append([x, y, percentage])
     return availability_list
 
-def save_to_json(input):
-    with open("./static/traffic.json", "w") as write_file:
-        json.dump(input, write_file)
+
+def save_to_json(input, dir):
+    with open(dir, "w") as write_file:
+        jsonStr = json.dump(input, write_file)
+        print(jsonStr)
+
+
