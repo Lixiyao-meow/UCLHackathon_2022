@@ -14,7 +14,7 @@ token = os.getenv('API_TOKEN')
 
 
 def get_coordinates():
-    with open('data/coords.json') as file:
+    with open('static/data/coords.json') as file:
         coordinates = json.load(file)
     return coordinates
 
@@ -71,5 +71,9 @@ def map_availability(availability: dict) -> list:
         x = availability[location]['x']
         y =availability[location]['y']
         percentage = availability[location]['availability']
-        availability_list.append([x, y, percentage*100])
+        availability_list.append([x, y, percentage*1000])
     return availability_list
+
+def save_to_json(input):
+    with open("./static/traffic.json", "w") as write_file:
+        json.dump(input, write_file)
