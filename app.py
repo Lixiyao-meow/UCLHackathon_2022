@@ -1,8 +1,7 @@
 from data import get_availability
 from dotenv import load_dotenv
 import os
-from flask import Flask, redirect 
-
+from flask import Flask, redirect, render_template
 
 load_dotenv()
 
@@ -22,6 +21,9 @@ def uclapi_login():
     availability = get_availability()
     return availability
 
+@app.route('/map')
+def map():
+    return render_template('map.html')
 
 if __name__ == '__main__':
     app.run()
