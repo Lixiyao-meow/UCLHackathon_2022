@@ -71,7 +71,5 @@ def map_availability(availability: dict) -> list:
         x = availability[location]['x']
         y =availability[location]['y']
         percentage = availability[location]['availability']
-        availability_list.append([x, y, percentage])
+        availability_list.append([x, y, percentage*100])
     return availability_list
-
-map_availability(get_availability())

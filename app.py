@@ -16,10 +16,6 @@ server_url = "http://localhost:5000"
 def main():
     return redirect(f"{server_url}/data")
 
-@app.route('/map')
-def map():
-    return render_template('map.html')
-
 @app.route('/data')
 def uclapi_login():
     availability = get_availability()
