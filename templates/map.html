@@ -15,11 +15,32 @@
         </style>
         <link rel="stylesheet" type="text/css" href="https://www.openstreetmap.org/openlayers/theme/default/style.css">
 
+        <style type="text/css">
+        #content {
+        display: flex; 
+        justify-content: space-between;
+        }
+        </style>
     </head>
 
     <body onload="init()">
         <div id="map" style="width:850px; height:500px;"></div>
-        <div>This is the heat map represents visitor distribution of my blog on June 3 and June 4. It's based on my heat map library <a href="http://github.com/sunng87/heatcanvas/"><em>Heat Canvas</em></a> OpenLayers extension. You can zoom in to see local detail. 
-            <a href="http://sunng.info/blog/2011/06/openlayers-extension-for-heatcanvas/">Here is my blog post</a> describes the usage. You can also get involved by ctrl+u.</div>
+        <div id="content">
+            <div style = "position:relative; left:4px; top:4px">
+                <form>
+                <select id="Select_Mode" name="Year">
+                    <option value="Study Space">Study Space</option>
+                    <option value="Food">Food</option>
+                    <option value="Commuting">Commuting</option>
+                </select>
+                <input type="button" value="Select Mode" onclick="" id="setMode"/>
+                </form>
+            </div>
+            <div style = "position:relative; left:4px; top:8px">
+                <button class="button" onClick="window.open('https://www.google.co.uk/forms/about');">
+                    <span class="icon">Leave a review and GET A DISCOUNT</span>
+                </button>
+            </div>
+        </div>
     </body>
 </html>
