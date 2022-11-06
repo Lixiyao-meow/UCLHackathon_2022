@@ -76,7 +76,7 @@ def map_availability(availability: dict) -> list:
         y =availability[location]['y']
         percentage = availability[location]['availability']
         # test case
-        # percentage = random.uniform(0, 1)
+        # percentage = random.uniform(0.8, 1)
         availability_list.append([x, y, percentage])
     return availability_list
 
