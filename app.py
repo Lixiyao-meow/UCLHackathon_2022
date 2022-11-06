@@ -1,3 +1,5 @@
+from apscheduler.schedulers.background import BackgroundScheduler
+
 from data import get_availability
 from dotenv import load_dotenv
 import os
@@ -12,14 +14,23 @@ client_secret = os.getenv('CLIENT_SECRET')
 token =os.getenv('API_TOKEN')
 server_url = "http://localhost:5000"
 
+#The refreshing data part
+def fresh_map_data():
+    get_availability()
+
+sched = BackgroundScheduler({'apscheduler.job_defaults.max_instances': 3},daemon=True)
+
+sched.add_job(fresh_map_data,'interval',seconds=10)
+sched.start()
+
 @app.route('/')
 def main():
     return redirect(f"{server_url}/data")
 
-@app.route('/data')
-def uclapi_login():
-    availability = get_availability()
-    return availability
+# @app.route('/data')
+# def uclapi_login():
+#     availability = get_availability()
+#     return availability
 
 @app.route('/map')
 def map():

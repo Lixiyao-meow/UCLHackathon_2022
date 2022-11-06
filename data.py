@@ -1,3 +1,5 @@
+import random
+
 import requests
 import os
 from dotenv import load_dotenv
@@ -10,7 +12,7 @@ now = datetime.now()
 
 client_id = os.getenv('CLIENT_ID')
 client_secret = os.getenv('CLIENT_SECRET')
-token = os.getenv('API_TOKEN')
+token = 'uclapi-760f5fb1d6feb10-724f4c153aae325-b2862cb4409c20d-d677b394d5cb2f1'
 
 
 def get_coordinates():
@@ -61,7 +63,9 @@ def get_availability() -> dict:
     }
     r = requests.get("https://uclapi.com/workspaces/surveys", params=params)
     loc_list = r.json()['surveys']
-    return create_availability_dict(loc_list)
+    output = map_availability(create_availability_dict(loc_list))
+    save_to_json(output, "./static/traffic.json")
+    return output
 
 
 def map_availability(availability: dict) -> list:
@@ -71,9 +75,11 @@ def map_availability(availability: dict) -> list:
         x = availability[location]['x']
         y =availability[location]['y']
         percentage = availability[location]['availability']
-        availability_list.append([x, y, percentage*1000])
+        # test case
+        # percentage = random.uniform(0, 1)
+        availability_list.append([x, y, percentage])
     return availability_list
 
-def save_to_json(input):
-    with open("./static/traffic.json", "w") as write_file:
+def save_to_json(input, dir):
+    with open(dir, "w") as write_file:
         json.dump(input, write_file)
