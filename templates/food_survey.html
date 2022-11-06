@@ -20,7 +20,6 @@
     }
         </style>
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <style type="text/css">
         #content {
         display: flex; 
@@ -35,24 +34,32 @@
           </h1>
           <h3 style="text-align:center;font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
           Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;">Because I don't know if you've noticed, but there are quite some people here...</h3>
-        <div id="map" style="width:850px; height:500px; margin:auto !important; text-align:centre !important; "></div>
-        <div style="margin:auto !important; text-align:centre !important;">
-        <div id="content">
-            <div style = "position:relative; left:4px; top:4px;">
-                <form>
-                <select id="Select_Mode" class="btn btn-primary dropdown-toggle" name="Year">
-                    <option value="Study Space">Study Space</option>
-                    <option value="Food">Food</option>
-                    <option value="Commuting">Commuting</option>
-                </select>
-                <input type="button" class="btn btn-info" value="Select Mode" onclick="" id="setMode"/>
-                </form>
-            </div>
-            <div style = "position:relative; left:4px; top:8px">
-                <button type="button" class="btn btn-info" onClick="window.open('https://www.google.co.uk/forms/about');">Leave a review and GET DISCOUNT</button>
-                </button>
-            </div>
-        </div>
-        </div>
-    </body>
+        
+        Name: <?php echo $name ?>
+
+        E-mail: <?php echo $email ?>
+        
+        Food place: <input type="text" name="website" value="<?php echo $website;?>">
+        
+        Comment: <textarea name="comment" rows="5" cols="40"><?php echo $comment;?></textarea>
+        
+        Overall note:
+        <input type="radio" name="gender"
+        <?php if (isset($gender) && $gender=="female") echo "checked";?>
+        value="1">1
+        <input type="radio" name="gender"
+        <?php if (isset($gender) && $gender=="female") echo "checked";?>
+        value="2">2
+        <input type="radio" name="gender"
+        <?php if (isset($gender) && $gender=="female") echo "checked";?>
+        value="3">3
+        <input type="radio" name="gender"
+        <?php if (isset($gender) && $gender=="female") echo "checked";?>
+        value="4">4
+        <input type="radio" name="gender"
+        <?php if (isset($gender) && $gender=="female") echo "checked";?>
+        value="5">5
+
+
+</body>
 </html>

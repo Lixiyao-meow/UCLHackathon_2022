@@ -31,19 +31,19 @@ var init = function(){
         map.addControl(new OpenLayers.Control.PanZoom());
     }
     heatmap = new OpenLayers.Layer.HeatCanvas("Heat Canvas", map, {},
-                  {'step':0.5, 'degree':HeatCanvas.LINEAR, 'opacity':0.7});
+                  {'step':0.5, 'degree':HeatCanvas.LINEAR, 'opacity':0.5});
     
-    var path = "../static/traffic.json";
+    var path =  "../static/traffic.json";
     LoadData(path).then(data=> {
         for(var i=0; i<data.length; i++) {
             if (data[i][2]==0)
-                data[i][2] = 0.3;
+                data[i][2] = Math.random();
             heatmap.pushData(data[i][0], data[i][1], Math.sqrt(data[i][2]) * 20);
         }
         map.addLayer(heatmap);
     });
 
-    //setInterval(update, 5000);
+    setInterval(update, 2000);
 
 };
 
@@ -52,7 +52,12 @@ var LoadData = async function(path){
     return data;
 };
 
-var update = function(){    
+var update = function(){
+    if (heatmap.data.length) {
+        heatmap.heatmap.clear();
+        heatmap.data.length = 0;
+    }
+
     var mode = document.querySelector("#Select_Mode").value;
     if (mode == "Study Space")
         path = "../static/traffic.json";
@@ -61,13 +66,16 @@ var update = function(){
     if (mode == "Commuting")
         path = "../static/commuting.json";
 
+    const newHeatmap = new OpenLayers.Layer.HeatCanvas("Heat Canvas", map, {},
+              {'step':0.5, 'degree':HeatCanvas.LINEAR, 'opacity':0.5});
+
     LoadData(path).then(data=> {
         for(var i=0; i<data.length; i++) {
-            if (data[i][2]==0)
-                data[i][2] = Math.random();
-            heatmap.pushData(data[i][0], data[i][1], Math.sqrt(data[i][2]) * 20);
+            newHeatmap.pushData(data[i][0], data[i][1], Math.sqrt(data[i][2]) * 20);
         }
-        map.addLayer(heatmap);
+        map.removeLayer(heatmap);
+        map.addLayer(newHeatmap);
+        heatmap = newHeatmap;
     });
     console.log("updated");
 };
