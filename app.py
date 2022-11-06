@@ -23,18 +23,11 @@ sched = BackgroundScheduler({'apscheduler.job_defaults.max_instances': 3},daemon
 sched.add_job(fresh_map_data,'interval',seconds=10)
 sched.start()
 
+
 @app.route('/')
 def main():
-    return redirect(f"{server_url}/data")
-
-# @app.route('/data')
-# def uclapi_login():
-#     availability = get_availability()
-#     return availability
-
-@app.route('/map')
-def map():
     return render_template('map.html')
+
 
 if __name__ == '__main__':
     app.run()
