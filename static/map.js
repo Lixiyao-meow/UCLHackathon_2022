@@ -22,6 +22,21 @@ var init = function(){
     map.addLayer(mapnik);
     map.setBaseLayer(mapnik);
 
+    var markers = new OpenLayers.Layer.Markers("Markers");
+    map.addLayer(markers);
+    var size = new OpenLayers.Size(50, 50);
+    var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
+    var icon = new OpenLayers.Icon("../static/food.png", size, offset);
+  
+    
+    markers.addMarker(
+      new OpenLayers.Marker(new OpenLayers.LonLat(-0.1333457, 51.5241198).transform(
+          map.displayProjection,
+          map.getProjectionObject()
+        ),
+        icon),
+    );
+
     map.setCenter(new OpenLayers.LonLat(-0.1300, 51.523).transform(map.displayProjection, map.getProjectionObject()), 16);
 
     var size = map.getSize();
