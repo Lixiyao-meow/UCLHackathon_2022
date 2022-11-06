@@ -71,9 +71,7 @@ var update = function(){
 
     LoadData(path).then(data=> {
         for(var i=0; i<data.length; i++) {
-            //if (data[i][2]==0)
-            //     data[i][2] = Math.random();
-                newHeatmap.pushData(data[i][0], data[i][1], Math.sqrt(data[i][2]) * 20);
+            newHeatmap.pushData(data[i][0], data[i][1], Math.sqrt(data[i][2]) * 20);
         }
         map.removeLayer(heatmap);
         map.addLayer(newHeatmap);
