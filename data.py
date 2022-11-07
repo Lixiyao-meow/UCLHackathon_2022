@@ -12,7 +12,7 @@ now = datetime.now()
 
 client_id = os.getenv('CLIENT_ID')
 client_secret = os.getenv('CLIENT_SECRET')
-token = 'uclapi-760f5fb1d6feb10-724f4c153aae325-b2862cb4409c20d-d677b394d5cb2f1'
+token = 'uclapi-b090c174771065c-07c37502d323483-00f8f1698205974-6a1d9f217ff6a33'
 
 
 def get_coordinates():
